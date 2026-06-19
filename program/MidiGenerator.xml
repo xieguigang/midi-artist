@@ -1,0 +1,220 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+MidiGenerator
+</name>
+</assembly>
+<members>
+<member name="M:MidiGenerator.Midi.App.Main">
+ <summary>
+ 应用程序主入口
+ </summary>
+</member>
+<member name="T:MidiGenerator.Midi.MidiEventType">
+ <summary>
+ MIDI 事件类型枚举
+ </summary>
+</member>
+<member name="T:MidiGenerator.Midi.MetaEventType">
+ <summary>
+ Meta 事件子类型
+ </summary>
+</member>
+<member name="T:MidiGenerator.Midi.MidiEvent">
+ <summary>
+ 单个 MIDI 事件（解析后的中间表示）
+ </summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiEvent.DeltaTime">
+ <summary>距上一事件的 tick 数（增量时间）</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiEvent.Type">
+ <summary>事件类型</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiEvent.Channel">
+ <summary>通道 0-15</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiEvent.Data1">
+ <summary>数据字节 1（如音符编号、控制器号）</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiEvent.Data2">
+ <summary>数据字节 2（如力度、控制器值）</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiEvent.MetaType">
+ <summary>Meta 事件子类型（仅 MetaEvent 时有效）</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiEvent.MetaData">
+ <summary>Meta 事件原始数据</summary>
+</member>
+<member name="T:MidiGenerator.Midi.MidiTrack">
+ <summary>
+ 音轨数据
+ </summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiTrack.Name">
+ <summary>轨道名称</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiTrack.Channel">
+ <summary>MIDI 通道 0-15</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiTrack.Instrument">
+ <summary>乐器（程序）编号 0-127</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiTrack.Volume">
+ <summary>音量 0-127</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiTrack.Events">
+ <summary>事件列表</summary>
+</member>
+<member name="T:MidiGenerator.Midi.MidiFileData">
+ <summary>
+ 整个 MIDI 文件描述
+ </summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiFileData.TrackCount">
+ <summary>轨道数</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiFileData.Tpqn">
+ <summary>每四分音符 tick 数（TPQN）</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiFileData.Tempo">
+ <summary>初始速度（BPM）</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiFileData.Tracks">
+ <summary>轨道列表</summary>
+</member>
+<member name="T:MidiGenerator.Midi.NoteNames">
+ <summary>
+ 音符名称与 MIDI 编号之间的转换工具
+ </summary>
+</member>
+<member name="F:MidiGenerator.Midi.NoteNames.SemitoneNames">
+ <summary>12 个半音名称（与 MIDI 编号 mod 12 对应）</summary>
+</member>
+<member name="M:MidiGenerator.Midi.NoteNames.NameToNumber(System.String)">
+ <summary>
+ 将音符名称（如 "C4", "F#5"）转换为 MIDI 编号
+ 约定：中央 C 为 C4，对应 MIDI 编号 60
+ </summary>
+</member>
+<member name="M:MidiGenerator.Midi.NoteNames.NumberToName(System.Int32)">
+ <summary>
+ 将 MIDI 编号转换为音符名称
+ </summary>
+</member>
+<member name="F:MidiGenerator.Midi.MidiParser.Log">
+ <summary>解析过程中产生的日志信息</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiParser.Parse(System.String)">
+ <summary>
+ 解析 txt 文件，返回 MidiFileData
+ </summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiParser.ParseLines(System.Collections.Generic.IEnumerable{System.String})">
+ <summary>
+ 解析文本行集合
+ </summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiParser.ParseGlobalProperty(System.String,MidiGenerator.Midi.MidiFileData)">
+ <summary>解析全局属性</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiParser.ParseTrackProperty(System.String,MidiGenerator.Midi.MidiTrack)">
+ <summary>解析轨道属性</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiParser.ParseEvent(System.String,MidiGenerator.Midi.MidiTrack)">
+ <summary>解析事件行</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiParser.SplitKeyValue(System.String)">
+ <summary>拆分 "KEY: VALUE" 形式的行</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiParser.ParseByte(System.String,System.Int32,System.Int32,System.String)">
+ <summary>解析字节范围</summary>
+</member>
+<member name="F:MidiGenerator.Midi.MidiGenerator.Log">
+ <summary>生成过程中产生的日志</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiGenerator.Write(MidiGenerator.Midi.MidiFileData,System.String)">
+ <summary>
+ 将 MidiFileData 写入 MIDI 文件
+ </summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiGenerator.BuildTrackBytes(MidiGenerator.Midi.MidiTrack,MidiGenerator.Midi.MidiFileData,System.Int32)">
+ <summary>构建一条轨道的字节流</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiGenerator.WriteEvent(System.IO.BinaryWriter,MidiGenerator.Midi.MidiEvent,System.Byte@)">
+ <summary>写单个事件（支持 running status 优化）</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiGenerator.WriteChannelMessage(System.IO.BinaryWriter,System.Int32,MidiGenerator.Midi.MidiEventType,System.Byte,System.Byte,System.Byte)">
+ <summary>写通道消息（带 delta time）</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiGenerator.WriteMetaEvent(System.IO.BinaryWriter,System.Int32,MidiGenerator.Midi.MetaEventType,System.Byte[])">
+ <summary>写 Meta 事件（带 delta time）</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiGenerator.WriteVarLen(System.IO.BinaryWriter,System.UInt32)">
+ <summary>写变长整数（MIDI VLQ）</summary>
+</member>
+<member name="T:MidiGenerator.Midi.MidiPlayer">
+ <summary>
+ MIDI 播放器，基于 Win32 MCI (Media Control Interface) API
+ </summary>
+</member>
+<member name="E:MidiGenerator.Midi.MidiPlayer.PlaybackFinished">
+ <summary>播放完成事件</summary>
+</member>
+<member name="E:MidiGenerator.Midi.MidiPlayer.PlaybackError">
+ <summary>播放错误事件</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiPlayer.IsPlaying">
+ <summary>当前是否正在播放</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiPlayer.IsPaused">
+ <summary>当前是否暂停</summary>
+</member>
+<member name="P:MidiGenerator.Midi.MidiPlayer.CurrentFile">
+ <summary>当前打开的 MIDI 文件路径</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiPlayer.Open(System.String)">
+ <summary>
+ 打开 MIDI 文件
+ </summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiPlayer.Play">
+ <summary>
+ 开始播放（从头开始）
+ </summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiPlayer.ResumePlay">
+ <summary>
+ 从当前位置继续播放
+ </summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiPlayer.Pause">
+ <summary>暂停播放</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiPlayer.Stop">
+ <summary>停止播放</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiPlayer.CloseFile">
+ <summary>关闭文件</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiPlayer.GetPositionMs">
+ <summary>获取当前播放位置（毫秒）</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiPlayer.GetLengthMs">
+ <summary>获取总长度（毫秒）</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiPlayer.IsFinished">
+ <summary>检查是否播放完毕</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiPlayer.SetVolume(System.Int32)">
+ <summary>设置音量 (0-1000)</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiPlayer.GetErrorString(System.Int32)">
+ <summary>获取 MCI 错误描述</summary>
+</member>
+<member name="M:MidiGenerator.Midi.MidiPlayer.Dispose">
+ <summary>释放资源</summary>
+</member>
+</members>
+</doc>
